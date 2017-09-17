@@ -5,7 +5,43 @@
 
 \section{Sigmoid函数}
 	\boldmath  %公式加粗
+	sigmoid 函数的主要公式如下所示：
 	
+	\begin{equation}
+		p(x) = \frac{1}{1+e^{-x}}
+	\end{equation}		
+	
+	该公式主要用在二分类的问题中作为最后的预测结果分类，或者作为激活函数在神经网络中使用。
+	
+	为什么要使用sigmoid？暂时不清楚
+	
+
+\section{Logistic Regression}
+	\boldmath  %公式加粗
+	逻辑回归主要用在二分类问题中，最后给出该样本属于正类或者负类的概率，公式如下所示：
+	
+	\begin{equation}
+		J(\theta) = - \frac{1}{m} \left[ \sum_{i=1}^{m} y^{(i)} log h_\theta(x^{(i)})+ (1-y^{(i)})log(1-h_\theta(x^{(i)})) \right]	
+	
+	\end{equation}
+	
+	通俗的来说，LR就是用来将两堆数据分来
+	
+	LR优点:
+	
+	\begin{itemize}
+		\item 预测结果是介于0和1之间的概率
+		\item 容易使用和解释
+		\item 预测速度较快，计算量小
+	\end{itemize}
+	
+	缺点：
+	\begin{itemize}
+		\item 当特征空间很大时，LR的性能不是很好，不能处理大量的特征
+		\item 容易欠拟合
+		\item 不能处理线性不可分的数据
+		\item 对于非线性特征，需要进行转换
+	\end{itemize}
 
 
 
