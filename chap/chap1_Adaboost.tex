@@ -1,0 +1,75 @@
+\chapter{Adaboost}
+
+\section*{Introduction}
+	本章内容来自于网络以及张志华老师的就《机器学习导论》课程
+
+	本章基本内容就是给定一堆弱分类器，然后通过各种组合组成一个人强的分类器
+
+\section{离散的Adaboost}
+
+	离散的AdaBoost算法步骤：\boldmath  %公式加粗
+
+	$w$表示给数据的权值，$\alpha$表示给分类器的权值
+
+	\begin{enumerate}		
+		\item start with weights $w_i = \frac{1}{N} \quad i=1...N$
+		\item repeat for m=1 to M
+			\begin{itemize}
+				\item 使用输入数据训练一个分类器$G_m(x) \in (-1,1)$
+				\item 计算误差err:
+					\begin{equation*}
+						E_w[I_(y_i\not \equiv G_m(x_i))]=\frac{\sum_{i=1}^{N}w_i I_(y_i\not \equiv G_m(x_i))}{\sum_{i=1}^{N}w_i}
+					\end{equation*}
+				\item 输出$\alpha_m = \frac{1}{2}log(\frac{1-err}{err})$,从这里可以看出分类器的误差越大，权值越小
+				\item set $w_i = \frac{w_i}{Z_m} \exp(\alpha_m I_(y\not \equiv G_m(x))$，其中$Z_m$是规范化因子,\newline
+				$Z_m=\sum_{i=1}^{N}w_i \exp(-\alpha_m y_i G_m(x_i))$如果一个数据点分类错了，那么给这个点的权值大一点。
+			\end{itemize}
+		\item 这样我们就得到了$G(x)=sign[\sum_{m=1}^{M}\alpha_m G_m(x)]$
+	\end{enumerate}
+
+
+
+%--------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------
+
+\section{Forward Stagest Additive Modeling}
+
+	考虑加法模型(additive model)\boldmath
+	\begin{equation}
+		f(x)=\sum_{m=1}^{M}\beta_{m}b(x;\gamma_{m})
+	\end{equation}
+	其中,$b(x;\gamma_{m})$为基函数，$\gamma_m$为基函数的参数，$\beta_m$为基函数的系数。
+
+	在给定训练数据以及Loss Function的情况下，相当于一个加法模型$f(x)$相当于一个minimize Loss Function的问题：
+	\begin{equation}
+		min_{\beta_m,\gamma_m} \sum_{i=1}^{N}L(y_i,\sum_{m=1}^{M}\beta_{m}b(x;\gamma_{m}))
+	\end{equation}
+	从前向后，每一步值学习一个基函数及其系数，即每一步只需优化如下的损失函数：
+	\begin{equation}
+		min_{\beta,\gamma} \sum_{i=1}^{N}L(y_i,\sum_{m=1}^{M}\beta b(x;\gamma))
+	\end{equation}
+	\newline
+	\newline
+
+	前向分布算法：
+
+	输入：训练数据$T={(x_1,y_1),...(x_N,y_N)}$,Loss Function$L(x,f(x))$,基函数$b(x;\gamma)$
+
+	输出：加法模型$f(x)$
+
+	\begin{enumerate}		
+		\item 初始化$f_0(x)=0$
+		\item repeat for m=1 to M
+			\begin{itemize}
+				\item 计算参数$\beta_m,\gamma_m$
+				\begin{equation}
+					(\beta_m,\gamma_m)=\arg\min_{\beta,\gamma} \sum_{i=1}^{N}L(y_i,f_{m-1}(x_i)\beta b(x;\gamma))
+				\end{equation}
+				\item 更新$f_m(x)=f_{m-1}(x)+\beta_m b(x;\gamma_m)$
+			\end{itemize}
+		\item 得到加法模型
+				\begin{equation}
+					f(x)=\sum_{m=1}^{M} \beta_m b(x;\gamma_m)
+				\end{equation}
+	\end{enumerate}

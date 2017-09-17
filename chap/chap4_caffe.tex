@@ -1,0 +1,124 @@
+\chapter{Caffe}
+
+\section*{Introduction}
+	本章节内容主要是关于caffe框架的一些知识。
+	
+
+\section{lmdb}
+	lmdb格式的文件在使用Python程序进行生成的时候，如果需要重复生成，则需要先删除原来的。否则会在原先的lmdb上重新添加文件。
+
+
+	
+\section{net protobuf}
+	\boldmath  %公式加粗
+	此部分内容有待添加
+	
+	
+
+\section{solver}	
+	solver文件为caffe的训练参数的文件，主要存储一些训练的超参数
+    
+    运行代码为：# caffe train --solver=*slover.prototxt
+    
+    一个例子：
+    
+    \begin{lstlisting}
+    train_net: "lenet_train.prototxt"
+    test_net: "lenet_test.prototxt"	
+	test_iter: 100
+	test_interval: 500
+	
+	base_lr: 0.01
+	lr_policy: "fixed"
+	
+	momentum: 0.9
+	type: SGD
+	weight_decay: 0.0005
+	display: 100
+	max_iter: 20000
+	snapshot: 5000
+	snapshot_prefix: "models"
+	solver_mode: CPU
+	\end{lstlisting}
+	
+	下面来一个一个解释这些程序的意思
+    
+    1.    
+        
+    train\_ net: "lenet\_ train.prototxt"
+    
+    test\_ net: "lenet\_ test.prototxt"
+    	
+    这两行用于定于训练网络和测试网络，可以是同一个网络，用net：train\_ test.prototxt 来表示,为上一节的内容。注意：文件的路径要从caffe的根目录开始，其他所有的配置都是这样的。
+    
+    2.接下来test\_ iter 表示一次训练需要加载多少个数据，许训练中的batch size是一致的；test\_ iterval表示经过多少此训练的Iteration后进行一次测试，如500表示没经过500个Iteration进行一次测试。另外，如果网络不想进行测试的话，可以在solver文件中加入如下的参数 test\_ initialization: false 这样不管经过多少次的Iteration都不会进行测试。
+    
+    3.有关于learing rate的东西
+    
+    base\_ lr 表示初始的一个learing rate，如果lr\_ policy 如果设置为fixed，训练过程中会一直维持这个learing rate不再改变，其他的都是会在训练过程中逐渐变化的。
+    
+    lr\_ policy 可设置的值如下所示：
+    \begin{itemize}
+    	\item fixed:保持base\_ lr不变
+    	\item step: 如果设置为step,则还需要设置一个stepsize,返回 $base\_ lr*gamma^{floor*         \frac{iter}{stepsize}}$,其中iter表示当前的迭代次数。如设置gamma=0.9，stepsize=100表示在第一百次迭代后learning rate 下降到原来的0.9倍
+    	\item exp:返回$base\_ lr * gamma ^ iter$， iter为当前迭代次数
+    	\item inv:如果设置为inv,还需要设置一个power, 返回$base_lr * (1 + gamma * iter) ^ {- power}$
+    	\item multistep:如果设置为multistep,则还需要设置一个stepvalue。这个参数和step很相似，step是均匀等间隔变化，而multistep则是根据stepvalue值变化
+    	\item poly:学习率进行多项式误差, 返回 $base\_lr (1 - iter/max\_ iter) ^ {power}$
+    	\item sigmoid:学习率进行sigmod衰减，返回 $base\_lr ( 1/(1 + exp(-gamma * (iter - stepsize))))$
+    
+    \end{itemize}
+    需要设置参数的数量随着lr pilicy的不同而有所变化。如设置为fixed则不需要添加任何参数，设置为step则需要添加gamma和stepsize两个参数，设置为step的策略后solver配置如下所示：
+    \begin{lstlisting}
+	base_lr: 0.01
+	lr_policy: "step"
+	gamma：0.9
+	stepsize：100
+	\end{lstlisting}
+	
+	4.对于momentum，一般取值在0.5--0.99之间。通常设为0.9，momentum可以让使用SGD的深度学习方法更加稳定以及快速。详细的资料，参考Hinton的论文《A Practical Guide to Training Restricted Boltzmann Machines》
+    
+    5. type:SGD
+    
+    表示优化算法，总共有六种：SGD、AdaDelta、AdaGrad、Adam、NAG、RMSprop
+    
+    6.weight\_ decay 为权重衰减项，详细的内容已经在上一章解释过了。
+    
+    7.display：100表示没训练100个Iteration显示一次loss
+    
+    8.max\_ iter:2000 表示最大的迭代此时为2000
+    
+    9.
+    
+    snapshot:500
+    
+    snapshot\_ prefix :"models" 
+    
+    表示没训练500个Iteration，保存一次网络的参数数据，保存路径为models。同时会保存另外一个solverstate文件，以便下次训练的时候可以从这一步继续训练。
+    
+    10.solver\_ mode: CPU设置运行模式为CPU
+
+
+
+
+	% \begin{enumerate}		
+	% 	\item start with weights $w_i = \frac{1}{N} \quad i=1...N$
+	% 	\item repeat for m=1 to M
+	% 		\begin{itemize}
+	% 			\item 使用输入数据训练一个分类器$G_m(x) \in (-1,1)$
+	% 			\item 计算误差err:
+	% 				\begin{equation*}
+	% 					E_w[I_(y_i\not \equiv G_m(x_i))]=\frac{\sum_{i=1}^{N}w_i I_(y_i\not \equiv G_m(x_i))}{\sum_{i=1}^{N}w_i}
+	% 				\end{equation*}
+	% 			\item 输出$\alpha_m = \frac{1}{2}log(\frac{1-err}{err})$,从这里可以看出分类器的误差越大，权值越小
+	% 			\item set $w_i = \frac{w_i}{Z_m} \exp(\alpha_m I_(y\not \equiv G_m(x))$，其中$Z_m$是规范化因子,\newline
+	% 			$Z_m=\sum_{i=1}^{N}w_i \exp(-\alpha_m y_i G_m(x_i))$如果一个数据点分类错了，那么给这个点的权值大一点。
+	% 		\end{itemize}
+	% 	\item 这样我们就得到了$G(x)=sign[\sum_{m=1}^{M}\alpha_m G_m(x)]$
+	% \end{enumerate}
+
+
+
+%--------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------

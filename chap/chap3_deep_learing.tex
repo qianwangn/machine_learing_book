@@ -1,0 +1,59 @@
+\chapter{Deep Learing}
+
+\section*{Introduction}
+	本章节内容主要是来自于深度学习中遇到的一些坑以及问题
+	
+\section{一些小的trick}
+
+1. 一定要对数据进行归一化
+
+2. 训练可能会出现loss一开始迅速下降，然后稳定在一定的值上，这时候不要以为网络已经收敛了，有时候会出现一个拐点，即在训练很后面的时候会重新出现一个新的下降的区间，这时候网络基本上会收敛。但是不排除会出现多的拐点的情况。结论：训练过程中一定要耐心耐心再耐心。
+	
+\section{weight decay}
+	\boldmath  %公式加粗
+	在损失函数中，weight decay是放在正则项（regularization）前面的一个系数，正则项一般指示模型的复杂度，所以weight decay的作用是调节模型复杂度对损失函数的影响，若weight decay很大，则复杂的模型损失函数的值也就大。我所理解的weight decay就是一个调节正则化项的系数，增大则对正则化项的依赖会更高，不容易过拟合，反之则反之。
+	
+	利用weight decay给损失函数加了个惩罚项，使得在常规损失函数值相同的情况下，学习算法更倾向于选择更简单（即权值和更小）的NN。是一种减小训练过拟合的方法。
+	
+	Weight decay is equivalent to L2 regularizer.
+	
+	在训练神经网络的时候，可以先设置weight decay为0，然后使网络过拟合，查看测试结果。结果正确后，设置weight decay为大一点的值，即加入正则化项，这样可以防止过拟合现象。具体大小需要在网络中调试。
+	
+	遇到的问题：在训练U-net的时候，出现训练结果全是黑图的情况。原因是weight decay设置过大，导致网络结果没有过拟合。解决方案：设置weight decay为更小的值。
+	
+
+\section{momentum}
+	momentum是梯度下降法中一种常用的加速技术。对于一般的SGD，其表达式为$x \gets x-\alpha * dx$,x沿负梯度下降。而带momentum项的SGD则写生如下形式：$v=  \beta *v -a*dx$,$x \gets x+v$,其中$\beta$是momentum系数，通俗的理解上面式子就是，如果上一次的momentum（即v）与这一次的负梯度方向是相同的，那这次下降的幅度就会加大，所以这样做能够达到加速收敛的过程。
+	
+	神经网络的训练过程（也就是梯度下降法）是在高维曲面上寻找全局最优解的过程（也就是寻找波谷），每经过一次训练epoch，搜寻点应该更加靠近最优点所在的区域范围，这时进行权重衰减便有利于将搜寻范围限制在该范围内，而不至于跳出这个搜索圈，反复进行权重衰减便逐渐缩小搜索范围，最终找到全局最优解对应的点，网络收敛。momentum是冲量单元，也就是下式中的m，作用是有助于训练过程中逃离局部最小值，使网络能够更快速地收敛，也是需要经过反复地trial and error获得的经验值
+	
+	主要作用：防止陷入局部最小值
+
+
+
+
+
+
+
+
+	% \begin{enumerate}		
+	% 	\item start with weights $w_i = \frac{1}{N} \quad i=1...N$
+	% 	\item repeat for m=1 to M
+	% 		\begin{itemize}
+	% 			\item 使用输入数据训练一个分类器$G_m(x) \in (-1,1)$
+	% 			\item 计算误差err:
+	% 				\begin{equation*}
+	% 					E_w[I_(y_i\not \equiv G_m(x_i))]=\frac{\sum_{i=1}^{N}w_i I_(y_i\not \equiv G_m(x_i))}{\sum_{i=1}^{N}w_i}
+	% 				\end{equation*}
+	% 			\item 输出$\alpha_m = \frac{1}{2}log(\frac{1-err}{err})$,从这里可以看出分类器的误差越大，权值越小
+	% 			\item set $w_i = \frac{w_i}{Z_m} \exp(\alpha_m I_(y\not \equiv G_m(x))$，其中$Z_m$是规范化因子,\newline
+	% 			$Z_m=\sum_{i=1}^{N}w_i \exp(-\alpha_m y_i G_m(x_i))$如果一个数据点分类错了，那么给这个点的权值大一点。
+	% 		\end{itemize}
+	% 	\item 这样我们就得到了$G(x)=sign[\sum_{m=1}^{M}\alpha_m G_m(x)]$
+	% \end{enumerate}
+
+
+
+%--------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------
