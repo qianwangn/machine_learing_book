@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.8.23)  26 SEP 2017 16:49
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.8.23)  26 SEP 2017 17:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2231,20 +2231,26 @@ LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
 (Font)              scaled to size 15.05624pt on input line 17.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
 (Font)              scaled to size 15.05624pt on input line 17.
-) [7
+File: img/3-1.png Graphic file (type QTm)
+<use  "img/3-1.png" > [7
 
 
-] [8
+]
+Missing character: There is no ： in font [lmroman12-regular]:mapping=tex-text!
+Missing character: There is no ： in font [lmroman12-regular]:mapping=tex-text!
+File: img/3-2.png Graphic file (type QTm)
+ <use  "img/3-2.png" > [8]) [9] [10
 
-] (./chap/chap9_deep_learing.tex
+]
+(./chap/chap9_deep_learing.tex
 第四章
 
 Underfull \vbox (badness 2644) has occurred while \output is active []
 
- [9
+ [11
 
 ])
-[10] (./chap/chap10_caffe.tex
+[12] (./chap/chap10_caffe.tex
 第五章
 ! You can't use `macro parameter character #' in horizontal mode.
 <recently read> ##
@@ -2258,26 +2264,26 @@ return to the right one by typing `I}' or `I$' or `I\par'.
 
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
 (Font)              scaled to size 6.52437pt on input line 26.
-[11
+[13
 
 
 ]
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
 (Font)              scaled to size 6.0pt on input line 63.
- [12] [13]
+ [14] [15]
 Overfull \hbox (9.75578pt too wide) in paragraph at lines 120--121
 []\EU1/FandolSong-Regular(0)/m/n/12.045 如 果 使 用 \T1/XCharter-TLF/m/n/12.045 sol
 ver \EU1/FandolSong-Regular(0)/m/n/12.045 文 件：| \T1/XCharter-TLF/m/n/12.045 bui
 ld/-tool-s/-caffe train --solver=models/bvlc_ alexnet/-solver.prototxt
  []
 
-) [14] (./main.bbl
+) [16] (./main.bbl
 
 Package natbib Warning: Empty `thebibliography' environment on input line 3.
 
 )
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 96.
- [15
+ [17
 
 
 ]
@@ -2291,12 +2297,12 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 35019 strings out of 493638
- 643878 string characters out of 6146796
- 666289 words of memory out of 5000000
- 37876 multiletter control sequences out of 15000+600000
+ 35035 strings out of 493638
+ 644088 string characters out of 6146796
+ 666369 words of memory out of 5000000
+ 37887 multiletter control sequences out of 15000+600000
  98058 words of font info for 85 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
  70i,12n,92p,10475b,1923s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on main.pdf (15 pages).
+Output written on main.pdf (17 pages).
