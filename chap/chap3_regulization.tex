@@ -1,0 +1,18 @@
+\chapter{正则化方法}
+
+\section*{Introduction}
+	本章节内容主要介绍机器学习、深度学习总的正则化方法
+	
+	一般来说，所有的监督学习都可以最小化下面的函数来表示：
+	
+	\begin{equation}
+		w = \arg \min_{w} \sum_{i}L(y_i,f(x_i;w)) + \lambda \Omega(w)
+	\end{equation}
+	
+	其中，第一项一般为模型预测的结果与真实的结果之间的差距，可以用各种各样不同的函数来表示，第二项一般为正则化项，主要目的是使我们的模型更加简单，防止过拟合。
+
+\section{L1 L2}
+	\boldmath  %公式加粗
+	
+	\subsection{ill-condition}
+	我们都知道优化问题有两大难题。一个是局部最小值的问题：我们要找的是全局最小值，如果局部最小值太多，那我们的优化算法就很容易陷入局部最小而不能自拔。另外一个就是ill-condition的问题。加入我们有个方程组$Ax=b$，我们要做的是求解$x$,如果$A$或者$b$稍微的改变，会使得$x$发生很大的变化，那么这个方程组系统就是ill-condition的，反之就是well-condition的。

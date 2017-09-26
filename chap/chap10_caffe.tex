@@ -101,6 +101,30 @@
 
 
 
+\section{一些其他的问题}
+	\subsection{loss=87.3365}
+		\begin{itemize}
+			\item 如果一开始就出现这种情况，有可能是参数的初始化方式不对，使用xavier可以避免这种情况
+			\item 在caffe中数据的标签必须从0开始，且为整数（1.0,2.0也可以）
+			\item 数据可能会出现问题（一定要反复确定数据没有问题才可以）
+			\item 如果是图片数据可能是图片没有进行归一化，最好是进行归一化并且减去均值
+			\item 如果一开始的loss是在下降的，但是训练到后期出现了87.3365这个值，代表网络发散了，需要调整learing rate到一个较小的值，建议从0.01开始，到0.0001即可适合大部分网络结构
+		\end{itemize}
+		
+	\subsection{一些差别}
+		solver.step(1) 表示网络进行一次迭代，即进行一次前向过程和一次反向传播
+		
+		solver.net.forward() 表示网络只进行一次前向的过程，可用于网络的预测
+		
+	\subsection{多GPU计算}
+		如果使用solver文件：build/tools/caffe train --solver=models/bvlc\_ alexnet/solver.prototxt --gpu=0,1
+		
+		如果使用Python文件：python yourpythonfile.py CUDA\_ VISIBLE\_ DEVICES=0, 1
+	
+
+
+
+
 	% \begin{enumerate}		
 	% 	\item start with weights $w_i = \frac{1}{N} \quad i=1...N$
 	% 	\item repeat for m=1 to M

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.8.23)  17 SEP 2017 19:17
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.8.23)  26 SEP 2017 16:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2167,7 +2167,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 51--54
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.25 
+l.29 
      
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
@@ -2175,7 +2175,7 @@ you left one out. Proceed, with fingers crossed.
 ! Display math should end with $$.
 <to be read again> 
                    \par 
-l.25 
+l.29 
      
 The `$' that I just saw supposedly matches a previous `$$'.
 So I shall assume that you typed `$$' both times.
@@ -2187,7 +2187,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.26 ^^I\end{equation}
+l.30 ^^I\end{equation}
                       
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2196,7 +2196,7 @@ or  <return>  to continue without it.
 ! You can't use `\eqno' in vertical mode.
 \endmathdisplay@a ...\df@tag \@empty \else \veqno 
                                                   \alt@tag \df@tag \fi \ifx ...
-l.26 ^^I\end{equation}
+l.30 ^^I\end{equation}
                       
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -2206,7 +2206,7 @@ return to the right one by typing `I}' or `I$' or `I\par'.
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.26 ^^I\end{equation}
+l.30 ^^I\end{equation}
                       
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -2217,7 +2217,7 @@ my insertion and my current dilemma will both disappear.
 ! Display math should end with $$.
 <to be read again> 
                    \endgroup 
-l.26 ^^I\end{equation}
+l.30 ^^I\end{equation}
                       
 The `$' that I just saw supposedly matches a previous `$$'.
 So I shall assume that you typed `$$' both times.
@@ -2225,17 +2225,27 @@ So I shall assume that you typed `$$' both times.
 [5
 
 
-]) [6] (./chap/chap3_deep_learing.tex
+]) [6] (./chap/chap3_regulization.tex
 第三章
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
+(Font)              scaled to size 15.05624pt on input line 17.
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
+(Font)              scaled to size 15.05624pt on input line 17.
+) [7
+
+
+] [8
+
+] (./chap/chap9_deep_learing.tex
+第四章
 
 Underfull \vbox (badness 2644) has occurred while \output is active []
 
- [7
-
+ [9
 
 ])
-[8] (./chap/chap4_caffe.tex
-第四章
+[10] (./chap/chap10_caffe.tex
+第五章
 ! You can't use `macro parameter character #' in horizontal mode.
 <recently read> ##
                   
@@ -2248,39 +2258,45 @@ return to the right one by typing `I}' or `I$' or `I\par'.
 
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
 (Font)              scaled to size 6.52437pt on input line 26.
-[9
+[11
 
 
 ]
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
 (Font)              scaled to size 6.0pt on input line 63.
- [10]) [11] [12
+ [12] [13]
+Overfull \hbox (9.75578pt too wide) in paragraph at lines 120--121
+[]\EU1/FandolSong-Regular(0)/m/n/12.045 如 果 使 用 \T1/XCharter-TLF/m/n/12.045 sol
+ver \EU1/FandolSong-Regular(0)/m/n/12.045 文 件：| \T1/XCharter-TLF/m/n/12.045 bui
+ld/-tool-s/-caffe train --solver=models/bvlc_ alexnet/-solver.prototxt
+ []
 
-] (./main.bbl
+) [14] (./main.bbl
 
 Package natbib Warning: Empty `thebibliography' environment on input line 3.
 
 )
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 91.
- [13
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 96.
+ [15
+
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 91.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 96.
  (./main.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 91.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 91.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 96.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 96.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 35009 strings out of 493638
- 643615 string characters out of 6146796
+ 35019 strings out of 493638
+ 643878 string characters out of 6146796
  666289 words of memory out of 5000000
- 37870 multiletter control sequences out of 15000+600000
- 86645 words of font info for 82 fonts, out of 8000000 for 9000
+ 37876 multiletter control sequences out of 15000+600000
+ 98058 words of font info for 85 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
  70i,12n,92p,10475b,1923s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on main.pdf (13 pages).
+Output written on main.pdf (15 pages).
