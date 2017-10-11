@@ -22,14 +22,39 @@
 
 \section{Logistic Regression}
 	\boldmath  %公式加粗
-	逻辑回归主要用在二分类问题中，最后给出该样本属于正类或者负类的概率，公式如下所示：
+	逻辑回归主要用在二分类问题中，最后给出该样本属于正类或者负类的概率。决策函数就是sigmoid函数，就是说sigmoid的输出就是LR的输出，简化的公式如下：
+	
+	\begin{equation}
+		h(x) = \frac{1}{1+e^{-w^T x}}
+	\end{equation}
+	
+	对于一个二分类问题来说，分类为1的概率就是h(x),而分类为0的概率为1-h(x)，因此综合起来可以得到LR的决策函数为(y=0时前半部分不起作用，y=1时后半部分不起作用，因此其实就是把分类为0和1的概率合起来写了)：
+	
+	\begin{equation}
+		p(y|x;w) = h(x)^y [1-h(x)]^{1-y}
+	\end{equation}
+	
+	对参数w做最大似然估计，我们可以得到似然函数：
+	
+	\begin{equation}
+		\prod_{i=1}^m P(y_i|x_i;w) = \prod_{i=1}^m h(x_i)^{y_i}(1-h(x_i))^{1-y_i}
+	\end{equation}
+	
+	对上式取对数得到
+	
+	\begin{equation}
+		L(w) = \sum_{i=1}^{m} y^{(i)} log h_\theta(x^{(i)})+ (1-y^{(i)})log(1-h_\theta(x^{(i)}))
+	
+	\end{equation}
+	
+	当我们使用最大似然估计的时候，目的就是最大化似然函数，但是当我们在机器学习的算法中，我们往往需要最小化一个函数来方便我们的计算，因此我们只需要对上式取负号即可得到LR的损失函数，乘以$\frac{1}{m}$是为了方便计算。
 	
 	\begin{equation}
 		J(\theta) = - \frac{1}{m} \left[ \sum_{i=1}^{m} y^{(i)} log h_\theta(x^{(i)})+ (1-y^{(i)})log(1-h_\theta(x^{(i)})) \right]	
 	
 	\end{equation}
 	
-	通俗的来说，LR就是用来将两堆数据分来
+	通俗的来说，LR就是用来将两堆数据分来。对于LR的输出，如果输出的值越大表明结果属于这一类的概率会越大，但是输出的结果并不是代表着概率。
 	
 	LR优点:
 	
