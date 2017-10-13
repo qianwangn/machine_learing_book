@@ -201,13 +201,13 @@
 	首先我们需要构造拉格朗日函数，引入拉格朗日乘子$\alpha_i \geq 0$,定义拉格朗日函数为：
 	
 	\begin{equation}
-	L(w,b,\alpha) = \frac{1}{2}\|w\|^2-\sum_{i=1}^{N}\alpha_i(1-y_i(wx_i+b))
+	L(w,b,\alpha) = \frac{1}{2}\|w\|^2 + \sum_{i=1}^{N}\alpha_i(1-y_i(wx_i+b))
 	\end{equation}
 	
 	现在问题等价于求解$\min_{w,b}\ \max_{\alpha} L(w,b,\alpha)$,等价于求解$\max_{\alpha} \ \min_{w,b} L(w,b,\alpha)$,那么我们首先需要求解$\min_{w,b} L(w,b,\alpha)$,求解这个式子需要令其对于w和b的偏导数等与0，即：
 	
 	\begin{equation}
-		\frac{\partial_L}{\partial_w}=\|w\| - \sum x_i y_i = 0
+		\frac{\partial_L}{\partial_w}=\|w\| - \sum \alpha_i x_i y_i = 0
 	\end{equation}
 
 	\begin{equation}
@@ -222,9 +222,10 @@
 	
 	接下来只需要求$\max_{\alpha}L(w,b,\alpha)$,取负号即可直接转换成最小化问题，得到新的函数为：
 
-    \begin{equation}
-	\min_{\alpha} \frac{1}{2}\|w\|^2 - \sum_{i=0}^{N} \alpha_i
-	\end{equation}
+    \begin{gather}
+	\min_{\alpha} \frac{1}{2}\|w\|^2 - \sum_{i=0}^{N} \alpha_i \\ \nonumber
+	=\min_{\alpha} \frac{1}{2}\sum_{i=1}^{N}\sum_{j=1}^{N}\alpha_i \alpha_j y_i y_j x_i x_j - \sum_{i=0}^{N} \alpha_i
+	\end{gather}
 	
 	\begin{equation}
 	s.t.\ \sum_{i=1}^{N} \alpha_i y_i = 0
@@ -237,11 +238,11 @@
 	可以根据上述三个公式求得$\alpha^*$，然后进一步求得$w^*,b^*$,最终求得原始问题的解。下面还有一个问题就是，我们求得的解究竟是不是原始问题的解，如果是的话需要满足如下的KKT条件：
 	
 	\begin{equation}
-		\frac{\partial_L(w^*,b^*,\alpha^*)}{\partial_w} = 0
+		\frac{\partial_{L(w^*,b^*,\alpha^*)}}{\partial_w} = 0
 	\end{equation}
 
 	\begin{equation}
-		\frac{\partial_L(w^*,b^*,\alpha^*)}{\partial_b} = 0
+		\frac{\partial_{L(w^*,b^*,\alpha^*)}}{\partial_b} = 0
 	\end{equation}
 	
 	\begin{equation}
@@ -256,6 +257,129 @@
 		\alpha_i^* \geq 0,i=1,2,...,N
 	\end{equation}
 	
+	如果满足如上的KKT条件，我们就可以根据对偶问题来求原始问题的解了。有对偶问题，由公式4.21-23我们可以求得$\alpha^*$,进一步我们可以求得$w^*,b^*$，这样我们就获得了整个原始问题中的参数。完成整个问题的求解
+	
+	\subsection{软间隔最大化}
+	以上的问题仅仅是对于线性可分的情况下的训练数据，但是对于线性不可分的问题，以上的方法是不能很好的奏效的。软间隔最大化将以上方法扩展到了线性不可分的情况下了。并且这样做，可以避免SVM过拟合。
+	
+	线性不可分意味着有时候某些样本点是不能满足函数间隔大于1的要求的，因此为了解决这个问题，对于每一个样本点$(x_i,y_i)$,我们引入了一个松弛变量$\xi_i \geq 0$,使得函数间隔加上松弛变量大于等于1，，即我们的约束条件变成了如下的公式：
+	
+	\begin{equation}
+	y_y(wx_i+b) \geq 1-\xi_i
+	\end{equation}
+	
+	这样原始的线性不可分的线性支持向量机的问题，变成了如下的凸二次规划的问题（原始问题）：
+	
+	\begin{equation}
+		\max_{w,b，\xi}\ \frac{1}{2}\|w\|^2 +C\sum_{i=1}^{N}\xi_i
+	\end{equation}
+	
+	\begin{equation}
+		s.t.\ y_y(wx_i+b) \geq 1-\xi_i, i=1,...N
+	\end{equation}
+	
+	\begin{equation}
+		\xi_i \geq 0, i=1,...,N
+	\end{equation}
+	
+	下面我们给出以上问题的对偶问题，首先需要构造拉格朗日函数：
+	
+	\begin{equation}
+	L(w,b,\alpha) = \frac{1}{2}\|w\|^2 +C\sum_{i=1}^{N}\xi_i +\sum_{i=1}^{N}\alpha_i(1-y_i(wx_i+b)-\xi_i) - \sum_{i=1}^{N}\mu_i\xi_i
+	\end{equation}
+	
+	对偶问题是拉格朗日函数的极大极小问题，由上面我们知道，首先要求函数的极小，因此我们要对$w,b,\xi_i$,来分别求偏导：
+	
+	\begin{equation}
+		\frac{\partial_L}{\partial_w}=\|w\| - \sum \alpha_i x_i y_i = 0
+	\end{equation}
+
+	\begin{equation}
+		\frac{\partial_L}{\partial_b}=\sum \alpha_i y_i = 0
+	\end{equation}
+	
+	\begin{equation}
+		\frac{\partial_L}{\partial_{\xi_i}}= C-\alpha_i - \mu_i = 0
+	\end{equation}
+	
+	将上述三个公式带入原问题，我们可以得到原始问题的对偶问题：
+	
+	\begin{gather}
+	\min_{\alpha} \frac{1}{2}\sum_{i=1}^{N}\sum_{j=1}^{N}\alpha_i \alpha_j y_i y_j x_i x_j - \sum_{i=0}^{N} \alpha_i
+	\end{gather}
+	
+	\begin{equation}
+	s.t.\ \sum_{i=1}^{N} \alpha_i y_i = 0
+	\end{equation}
+	
+	\begin{equation}
+	0 \leq \alpha_i \leq C, \ i=1,2,...N
+	\end{equation}
+	
+	当对偶问题满足如下的KKT条件时，我们就可以只求出如上对偶问题的解，来作为原始问题的解：
+	
+	\begin{equation}
+		\frac{\partial_{L(w^*,b^*,\xi^*,\alpha^*,\mu^*)}}{\partial_w} = 0
+	\end{equation}
+
+	\begin{equation}
+		\frac{\partial_{L(w^*,b^*,\xi^*,\alpha^*,\mu^*)}}{\partial_b} = 0
+	\end{equation}
+	
+	\begin{equation}
+		\frac{\partial_{L(w^*,b^*,\xi^*,\alpha^*,\mu^*)}}{\partial_{\xi}} = 0
+	\end{equation}
+	
+	\begin{equation}
+		\alpha_i^*(y_i(w^*x_i+b^*)-1 + \xi^*_i)=0,i=1,2,...,N
+	\end{equation}
+	
+	\begin{equation}
+		\mu_i^* \xi_i^* = 0
+	\end{equation}
+	
+	\begin{equation}
+		y_i(w^*x_i+b^*)-1 + \xi_i^* \geq 0,i=1,2,...,N
+	\end{equation}
+	
+	\begin{equation}
+		\alpha_i^* \geq 0,i=1,2,...,N
+	\end{equation}
+	
+	\begin{equation}
+		\xi_i^* \geq 0,i=1,2,...,N
+	\end{equation}
+	
+	\begin{equation}
+		\mu_i^* \geq 0,i=1,2,...,N
+	\end{equation}
+	
+	当对偶问题满足如上条件后，我们可以根据对偶问题求得一个最优解$\alpha^*=(\alpha_i^*,...\alpha_N^*)$,然后可以进一步计算出$w^*,b^*$,这样我们就可以获得软间隔最大化的线性支持向量机的决策函数了。
+	
+	
+	\subsection{非线性支持向量机}
+	以上所有的内容，均为线性支持向量机，即使对于线性不可分的数据来说。
+	
+	非线性分类问题是指通过利用非线性模型才能很好的进行分类的问题，非线性支持向量机主要解决非线性的分类问题。
+	
+	\subsubsection{核函数}
+	核函数的定义为:$K(x,z)=\phi(x)\cdot\phi(z)$
+	
+	核函数的想法是，在学习和预测时只使用核函数$K(x,z)$,而不显式的定义映射函数$\phi$。通常来说，直接计算核函数$K(x,z)$会更容易，但是通过$\phi(x)\cdot\phi(z)$来计算核函数缺并不容易。在软间隔最大化的时候我们可以使用核函数来避免使用，如：
+	
+	\begin{gather}
+	\min_{\alpha} \frac{1}{2}\sum_{i=1}^{N}\sum_{j=1}^{N}\alpha_i \alpha_j y_i y_j K(x_i,x_j) - \sum_{i=0}^{N} \alpha_i
+	\end{gather}
+	
+	\subsubsection{正定核}
+	这一部分的内容，有需要再进行补充
+	
+	
+	
+	\subsection{一些注意事项}
+	\begin{itemize}
+		\item SVM如何防止过拟合？松弛变量的加入，即软间隔最大化
+	\end{itemize}
 	
 
 
