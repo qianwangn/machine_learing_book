@@ -25,32 +25,32 @@
 	逻辑回归主要用在二分类问题中，最后给出该样本属于正类或者负类的概率。决策函数就是sigmoid函数，就是说sigmoid的输出就是LR的输出，简化的公式如下：
 	
 	\begin{equation}
-		h(x) = \frac{1}{1+e^{-w^T x}}
+		h(x) = \frac{1}{1+e^{-\theta ^T x}}
 	\end{equation}
 	
 	对于一个二分类问题来说，分类为1的概率就是h(x),而分类为0的概率为1-h(x)，因此综合起来可以得到LR的决策函数为(y=0时前半部分不起作用，y=1时后半部分不起作用，因此其实就是把分类为0和1的概率合起来写了)：
 	
 	\begin{equation}
-		p(y|x;w) = h(x)^y [1-h(x)]^{1-y}
+		p(y|x;\theta) = h(x)^y [1-h(x)]^{1-y}
 	\end{equation}
 	
 	对参数w做最大似然估计，我们可以得到似然函数：
 	
 	\begin{equation}
-		\prod_{i=1}^m P(y_i|x_i;w) = \prod_{i=1}^m h(x_i)^{y_i}(1-h(x_i))^{1-y_i}
+		\prod_{i=1}^m P(y_i|x_i;\theta) = \prod_{i=1}^m h(x_i)^{y_i}(1-h(x_i))^{1-y_i}
 	\end{equation}
 	
 	对上式取对数得到
 	
 	\begin{equation}
-		L(w) = \sum_{i=1}^{m} y^{(i)} log h_\theta(x^{(i)})+ (1-y^{(i)})log(1-h_\theta(x^{(i)}))
+		L(\theta) = \sum_{i=1}^{m} \left[ y^{(i)} log h_\theta(x^{(i)})+ (1-y^{(i)})log(1-h_\theta(x^{(i)}))\right]
 	
 	\end{equation}
 	
 	当我们使用最大似然估计的时候，目的就是最大化似然函数，但是当我们在机器学习的算法中，我们往往需要最小化一个函数来方便我们的计算，因此我们只需要对上式取负号即可得到LR的损失函数，乘以$\frac{1}{m}$是为了方便计算。
 	
 	\begin{equation}
-		J(\theta) = - \frac{1}{m} \left[ \sum_{i=1}^{m} y^{(i)} log h_\theta(x^{(i)})+ (1-y^{(i)})log(1-h_\theta(x^{(i)})) \right]	
+		J(\theta) = - \frac{1}{m} \sum_{i=1}^{m} \left[ y^{(i)} log h_\theta(x^{(i)})+ (1-y^{(i)})log(1-h_\theta(x^{(i)})) \right]	
 	
 	\end{equation}
 	
@@ -66,10 +66,9 @@
 	
 	缺点：
 	\begin{itemize}
-		\item 当特征空间很大时，LR的性能不是很好，不能处理大量的特征
-		\item 容易欠拟合
-		\item 不能处理线性不可分的数据
-		\item 对于非线性特征，需要进行转换
+		\item 当特征空间很大时，LR
+		\item 容易欠拟合的性能不是很好
+		\item 对于线性不可分的数据，需要定义非线性函数对特征进行映射
 		\item 预测结果呈S型，中间的概率变化很大，很敏感
 	\end{itemize}
 
@@ -77,6 +76,8 @@
 \section{一些其他的问题}
 	1. LR是基于概率的一个模型，所有的点都会参与模型参数的更新。
 	   SVM是基于最大化间隔的模型，由少量的支持向量决定。
+	   
+	2. SVM对于异常点不敏感，而LR敏感。SVM更加健壮，决策面不受非支持向量的影响。
 	
 	
 
